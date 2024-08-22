@@ -1,11 +1,4 @@
-import {
-  Euler,
-  Matrix4,
-  Object3D,
-  Quaternion,
-  Vector3,
-  Vector3Tuple
-} from "three";
+import { Matrix4, Object3D, Vector3Tuple } from "three";
 import { useState } from "react";
 import { House } from "managers/HouseManager/HouseManager.types";
 import AxesHelper from "components/AxesHelper";
@@ -13,6 +6,7 @@ import CameraControls from "components/CameraControls";
 import Canvas from "components/Canvas";
 import Container from "components/Container";
 import GridHelper from "components/GridHelper";
+import HouseTable from "components/HouseTable";
 import HouseManager from "managers/HouseManager";
 import Light from "components/Light";
 import PivotControls from "components/PivotControls";
@@ -24,18 +18,18 @@ const GRID_SIZE = 50;
 const CONTAINER_STYLE = {
   width: "100vw",
   height: "100vh",
-  backgroundColor: "#151d2c"
+  backgroundColor: "#151d2c",
 };
 const HOUSE_INIT: House = {
   points: [
     [0, 0, 0],
     [2, 0, 0],
     [20, 0, 2],
-    [0, 0, 2]
+    [0, 0, 2],
   ],
   position: [0, 0, 0],
   rotation: [0, 0, 0],
-  height: 2
+  height: 2,
 };
 const PIVOT_DEFAULT_PROPS = {
   autoTransform: false,
@@ -43,7 +37,7 @@ const PIVOT_DEFAULT_PROPS = {
   fixed: true,
   scale: 60,
   disableScaling: true,
-  disableSliders: true
+  disableSliders: true,
 };
 
 /** Variables */
@@ -101,6 +95,7 @@ const App = () => {
   /** Return */
   return (
     <Container style={CONTAINER_STYLE}>
+      <HouseTable houses={houses} />
       <Canvas camera={{ position: CAMERA_POSITION }}>
         <AxesHelper />
         <CameraControls enabled={enabledCameraControls} />
