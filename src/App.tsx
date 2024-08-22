@@ -4,7 +4,7 @@ import {
   Object3D,
   Quaternion,
   Vector3,
-  Vector3Tuple
+  Vector3Tuple,
 } from "three";
 import { useState } from "react";
 import { House } from "managers/HouseManager/HouseManager.types";
@@ -20,22 +20,22 @@ import PivotControls from "components/PivotControls";
 /** Constants */
 const CAMERA_POSITION = [10, 10, 10] as Vector3Tuple;
 const GRID_POSITION = [0, -0.001, 0] as Vector3Tuple;
-const GRID_SIZE = 50;
+const GRID_SIZE = 100;
 const CONTAINER_STYLE = {
   width: "100vw",
   height: "100vh",
-  backgroundColor: "#151d2c"
+  backgroundColor: "#151d2c",
 };
 const HOUSE_INIT: House = {
   points: [
     [0, 0, 0],
     [2, 0, 0],
     [20, 0, 2],
-    [0, 0, 2]
+    [0, 0, 2],
   ],
   position: [0, 0, 0],
   rotation: [0, 0, 0],
-  height: 2
+  height: 2,
 };
 const PIVOT_DEFAULT_PROPS = {
   autoTransform: false,
@@ -43,7 +43,7 @@ const PIVOT_DEFAULT_PROPS = {
   fixed: true,
   scale: 60,
   disableScaling: true,
-  disableSliders: true
+  disableSliders: true,
 };
 
 /** Variables */
