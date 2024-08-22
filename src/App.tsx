@@ -1,4 +1,11 @@
-import { Matrix4, Object3D, Vector3Tuple } from "three";
+import {
+  Euler,
+  Matrix4,
+  Object3D,
+  Quaternion,
+  Vector3,
+  Vector3Tuple,
+} from "three";
 import { useState } from "react";
 import { House } from "managers/HouseManager/HouseManager.types";
 import AxesHelper from "components/AxesHelper";
@@ -14,7 +21,7 @@ import PivotControls from "components/PivotControls";
 /** Constants */
 const CAMERA_POSITION = [10, 10, 10] as Vector3Tuple;
 const GRID_POSITION = [0, -0.001, 0] as Vector3Tuple;
-const GRID_SIZE = 50;
+const GRID_SIZE = 100;
 const CONTAINER_STYLE = {
   width: "100vw",
   height: "100vh",
