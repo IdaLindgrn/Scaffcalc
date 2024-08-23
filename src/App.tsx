@@ -17,7 +17,6 @@ import GridHelper from "components/GridHelper";
 import HouseManager from "managers/HouseManager";
 import Light from "components/Light";
 import PivotControls from "components/PivotControls";
-import { v4 as uuidv4 } from "uuid";
 
 /** Constants */
 const CAMERA_POSITION = [10, 10, 10] as Vector3Tuple;
@@ -29,7 +28,6 @@ const CONTAINER_STYLE = {
   backgroundColor: "#151d2c",
 };
 const HOUSE_INIT: House = {
-  id: uuidv4(),
   points: [
     [0, 0, 0],
     [2, 0, 0],
@@ -110,9 +108,7 @@ const App = () => {
 
     setHouses((prevHouses) =>
       prevHouses.map((house) => {
-        console.log("house_id", house.id);
-        console.log("yayayy", selectedHouseObject.userData.house.id);
-        if (house.id === selectedHouseObject.userData.house) {
+        if (house === selectedHouseObject.userData.house) {
           return {
             ...house,
             position: [position.x, position.y, position.z] as Vector3Tuple,
