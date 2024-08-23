@@ -58,9 +58,10 @@
     top: 20%;
     transform: translateY(-50%);
     background-color: rgba(33, 35, 48, 0.7);
-    padding: 2em 1em;
-    padding-left: 1.7em;
-    border-radius: 5px;
+    padding: 2em 0.8em;
+    padding-left: 0.8em;
+    border-top-right-radius: 0.5em;
+    border-bottom-right-radius: 0.5em;
     cursor: pointer;
     display: none;
     transition: opacity 0.3s ease;

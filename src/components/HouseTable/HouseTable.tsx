@@ -49,9 +49,7 @@ const HouseList = (props: HouseManagerProps) => {
               <tr className="house-table-item" key={index}>
                 <td>{index + 1}</td>
                 <td>{Math.round(house.height ?? 0)}</td>
-                <td>
-                  [{house.position.map((pos) => Math.round(pos)).join(", ")}]
-                </td>
+                <td>[{getPositionWithColors(house.position)}]</td>
                 <td>
                   [{house.rotation.map((rot) => Math.round(rot)).join(", ")}]
                 </td>
