@@ -66,6 +66,10 @@
     display: none;
     transition: opacity 0.3s ease;
   }
+
+  .arrow:hover {
+    background-color: #3a3a4b4d;
+  }
   
   .arrow.visible {
     display: block;

@@ -161,7 +161,13 @@ const App = () => {
         />
       </Canvas>
       <button
-        style={{ position: "absolute", right: 20, top: 20, height: "40px" }}
+        style={{
+          position: "absolute",
+          right: 20,
+          top: 20,
+          height: "40px",
+          cursor: "pointer",
+        }}
         onClick={handleOnClickGetHousesFromAPI}
       >
         GET Houses from API
