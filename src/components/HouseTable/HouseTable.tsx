@@ -12,6 +12,18 @@ const HouseList = (props: HouseManagerProps) => {
     setIsVisible(!isVisible);
   };
 
+  const getPositionWithColors = (position: [number, number, number]) => {
+    const colors = ["#F92D68", "#78D89B", "#368EE2"];
+    return position.map((pos, index) => (
+      <span key={index} style={{ color: colors[index] }}>
+        {Math.round(pos)}
+        {index < position.length - 1 && (
+          <span style={{ color: "#FFF" }}>, </span>
+        )}
+      </span>
+    ));
+  };
+
   return (
     <>
       <div className={`house-table-container ${!isVisible ? "hidden" : ""}`}>
@@ -52,7 +64,7 @@ const HouseList = (props: HouseManagerProps) => {
         className={`arrow ${!isVisible ? "visible" : ""}`}
         onClick={toggleTable}
       >
-        <IoIosArrowForward size={30} color="white" />
+        <IoIosArrowForward size={30} color="#FFF" />
       </div>
     </>
   );
