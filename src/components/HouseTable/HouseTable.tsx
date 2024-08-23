@@ -39,7 +39,7 @@ const HouseList = (props: HouseManagerProps) => {
           <thead>
             <tr className="house-header">
               <th>House</th>
-              <th>Height</th>
+              <th>Height [m]</th>
               <th>Position</th>
               <th>Rotation</th>
             </tr>
