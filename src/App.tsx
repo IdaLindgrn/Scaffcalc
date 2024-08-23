@@ -4,9 +4,10 @@ import {
   Object3D,
   Quaternion,
   Vector3,
-  Vector3Tuple
+  Vector3Tuple,
 } from "three";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import * as THREE from "three";
 import { House } from "managers/HouseManager/HouseManager.types";
 import AxesHelper from "components/AxesHelper";
 import CameraControls from "components/CameraControls";
@@ -16,6 +17,7 @@ import GridHelper from "components/GridHelper";
 import HouseManager from "managers/HouseManager";
 import Light from "components/Light";
 import PivotControls from "components/PivotControls";
+import { v4 as uuidv4 } from "uuid";
 
 /** Constants */
 const CAMERA_POSITION = [10, 10, 10] as Vector3Tuple;
@@ -24,18 +26,19 @@ const GRID_SIZE = 50;
 const CONTAINER_STYLE = {
   width: "100vw",
   height: "100vh",
-  backgroundColor: "#151d2c"
+  backgroundColor: "#151d2c",
 };
 const HOUSE_INIT: House = {
+  id: uuidv4(),
   points: [
     [0, 0, 0],
     [2, 0, 0],
     [20, 0, 2],
-    [0, 0, 2]
+    [0, 0, 2],
   ],
   position: [0, 0, 0],
   rotation: [0, 0, 0],
-  height: 2
+  height: 2,
 };
 const PIVOT_DEFAULT_PROPS = {
   autoTransform: false,
@@ -43,7 +46,7 @@ const PIVOT_DEFAULT_PROPS = {
   fixed: true,
   scale: 60,
   disableScaling: true,
-  disableSliders: true
+  disableSliders: true,
 };
 
 /** Variables */
@@ -55,25 +58,74 @@ const App = () => {
   const [houses, setHouses] = useState<House[]>([HOUSE_INIT]);
   const [enabledCameraControls, setEnabledCameraControls] = useState(true);
   const [selectedHouseObject, setSelectedHouseObject] = useState<Object3D>();
-  const [selectedPointObject, setSelectedPointObject] = useState<Object3D>();
+  const [isPivotEnabled, setIsPivotEnabled] = useState(false);
+
+  const [houseLog, setHouseLog] = useState<Object3D | null>(null);
 
   /** Callbacks */
-  const handleOnClickHousePointObject = (
-    pointObject: Object3D,
-    houseObject: Object3D
-  ) => {
-    pivotMatrix.copy(pointObject.matrixWorld);
-    setSelectedPointObject(pointObject);
+
+  const handleOnClickHouseObject = (houseObject: Object3D) => {
+    if (houseLog === houseObject) {
+      setIsPivotEnabled(false);
+      setHouseLog(null);
+      return;
+    }
+    setHouseLog(houseObject);
+    const houseCenter = new Vector3();
+    const boundingBox = new THREE.Box3().setFromObject(houseObject);
+    boundingBox.getCenter(houseCenter);
+
+    pivotMatrix.identity();
+    pivotMatrix.setPosition(houseCenter);
     setSelectedHouseObject(houseObject);
+
+    setIsPivotEnabled(true);
   };
 
+  useEffect(() => {
+    if (!selectedHouseObject) {
+      setIsPivotEnabled(false);
+    }
+  }, [selectedHouseObject]);
+
   const handleOnDragPivotControls = (matrix: Matrix4) => {
+    if (!selectedHouseObject) return;
+
+    const deltaMatrix = new Matrix4()
+      .copy(matrix)
+      .multiply(new Matrix4().copy(pivotMatrix).invert());
+
+    selectedHouseObject.applyMatrix4(deltaMatrix);
     pivotMatrix.copy(matrix);
 
-    /** IMPLEMENT:
-     * Add logic that updates the position and rotation of the selected house object
-     * based on the selected point object's position and rotation.
-     */
+    const position = new Vector3();
+    const rotation = new Quaternion();
+    const scale = new Vector3();
+    selectedHouseObject.matrix.decompose(position, rotation, scale);
+
+    const eulerRotation = new Euler().setFromQuaternion(rotation);
+
+    console.log("Updated Position:", position);
+    console.log("Updated Rotation:", eulerRotation);
+
+    setHouses((prevHouses) =>
+      prevHouses.map((house) => {
+        console.log("house_id", house.id);
+        console.log("yayayy", selectedHouseObject.userData.house.id);
+        if (house.id === selectedHouseObject.userData.house) {
+          return {
+            ...house,
+            position: [position.x, position.y, position.z] as Vector3Tuple,
+            rotation: [
+              eulerRotation.x,
+              eulerRotation.y,
+              eulerRotation.z,
+            ] as Vector3Tuple,
+          };
+        }
+        return house;
+      })
+    );
   };
 
   const handleOnDragEndPivotControls = () => {
@@ -85,12 +137,6 @@ const App = () => {
   };
 
   const handleOnClickGetHousesFromAPI = () => {
-    /** IMPLEMENT:
-     * Fetch houses from an API and update the houses state.
-     * URL: https://scaffcalc.com/api/houses
-     * METHOD: GET
-     */
-
     fetch("https://scaffcalc.com/api/houses")
       .then((response) => response.json())
       .then((data) => {
@@ -105,10 +151,7 @@ const App = () => {
         <AxesHelper />
         <CameraControls enabled={enabledCameraControls} />
         <GridHelper position={GRID_POSITION} args={[GRID_SIZE, GRID_SIZE]} />
-        <HouseManager
-          houses={houses}
-          onClickHousePointObject={handleOnClickHousePointObject}
-        />
+        <HouseManager houses={houses} onClickHouse={handleOnClickHouseObject} />
         <Light />
         <PivotControls
           {...PIVOT_DEFAULT_PROPS}

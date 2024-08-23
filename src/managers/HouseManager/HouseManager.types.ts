@@ -1,6 +1,7 @@
 import { Object3D, Vector3Tuple } from "three";
 
 interface House {
+  id: string;
   points: [Vector3Tuple, Vector3Tuple, Vector3Tuple, Vector3Tuple];
   position: Vector3Tuple;
   rotation: Vector3Tuple;
@@ -9,7 +10,7 @@ interface House {
 
 interface HouseManagerProps {
   houses: House[];
-  onClickHousePointObject?: (point: Object3D, houseObject: Object3D) => void;
+  onClickHouse?: (houseObject: Object3D) => void;
 }
 
 export type { House };
