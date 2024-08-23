@@ -9,7 +9,7 @@ interface House {
 
 interface HouseManagerProps {
   houses: House[];
-  onClickHousePointObject?: (point: Object3D, houseObject: Object3D) => void;
+  onClickHouse?: (houseObject: Object3D) => void;
 }
 
 export type { House };

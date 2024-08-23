@@ -3,6 +3,7 @@ import { House } from "../../managers/HouseManager/HouseManager.types";
 
 interface HouseProps extends House {
   onClickHousePointObject?: (pointObject: Object3D) => void;
+  onClickHouse?: (houseObject: Object3D) => void;
 }
 
 export default HouseProps;
