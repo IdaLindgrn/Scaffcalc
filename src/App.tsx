@@ -58,7 +58,6 @@ const App = () => {
   const [enabledCameraControls, setEnabledCameraControls] = useState(true);
   const [selectedHouseObject, setSelectedHouseObject] = useState<Object3D>();
   const [isPivotEnabled, setIsPivotEnabled] = useState(false);
-
   const [houseLog, setHouseLog] = useState<Object3D | null>(null);
 
   /** Callbacks */
@@ -80,12 +79,6 @@ const App = () => {
 
     setIsPivotEnabled(true);
   };
-
-  useEffect(() => {
-    if (!selectedHouseObject) {
-      setIsPivotEnabled(false);
-    }
-  }, [selectedHouseObject]);
 
   const handleOnDragPivotControls = (matrix: Matrix4) => {
     if (!selectedHouseObject) return;
@@ -153,7 +146,7 @@ const App = () => {
         <Light />
         <PivotControls
           {...PIVOT_DEFAULT_PROPS}
-          enabled={!!selectedHouseObject}
+          enabled={isPivotEnabled}
           matrix={pivotMatrix}
           onDragStart={handleOnDragStartPivotControls}
           onDrag={handleOnDragPivotControls}

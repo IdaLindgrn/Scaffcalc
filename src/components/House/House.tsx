@@ -31,8 +31,8 @@ const House = (props: HouseProps) => {
     }
   };
 
-  const color = isSelected ? "#b3399f" : "#d54abe";
-  const roofColor = "#f472de";
+  const color = isSelected ? "#913381" : "#a43b93";
+  const roofColor = isSelected ? "#a93d97" : "#d257be";
 
   const shape = useMemo(() => {
     const shape = new Shape();
