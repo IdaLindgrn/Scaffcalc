@@ -13,6 +13,7 @@ import CameraControls from "components/CameraControls";
 import Canvas from "components/Canvas";
 import Container from "components/Container";
 import GridHelper from "components/GridHelper";
+import HouseTable from "components/HouseTable";
 import HouseManager from "managers/HouseManager";
 import Light from "components/Light";
 import PivotControls from "components/PivotControls";
@@ -101,6 +102,7 @@ const App = () => {
   /** Return */
   return (
     <Container style={CONTAINER_STYLE}>
+      <HouseTable houses={houses} />
       <Canvas camera={{ position: CAMERA_POSITION }}>
         <AxesHelper />
         <CameraControls enabled={enabledCameraControls} />
